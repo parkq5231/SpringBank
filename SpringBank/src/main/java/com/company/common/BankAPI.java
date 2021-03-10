@@ -112,6 +112,7 @@ public class BankAPI {
 				result += line;
 			}
 			System.out.println("response body : " + result);
+			userInfo.put("result", result);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
