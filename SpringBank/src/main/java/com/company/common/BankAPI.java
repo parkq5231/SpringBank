@@ -78,6 +78,7 @@ public class BankAPI {
 		}
 		return map;
 	}
+
 	// BANK 로그인
 	public String getAccessToken(String authorize_code) {
 		String access_Token = "";
@@ -242,7 +243,9 @@ public class BankAPI {
 
 	// 32자리 난수 만들기
 	public String getRand32() {
-		return "";
+		long time = System.currentTimeMillis();
+		String str = Long.toString(time);
+		return str + str + str.substring(0, 6);
 	}
 
 }// end of class

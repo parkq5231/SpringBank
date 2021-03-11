@@ -32,6 +32,12 @@ public class GsonTest {
 		// String -> 자바객체
 		map = mapper.readValue(str2, Map.class);
 		System.out.println("[jackson]" + map);
+		System.out.println(map.get("dept"));
 
+		long time = System.currentTimeMillis();
+		String str3 = Long.toString(time);
+		String str4 = str3 + str3 + str3.substring(0,6);
+		System.out.println(str3.substring(0,6));
+		System.out.println(str4.length());
 	}// end of main
 }// end of class
