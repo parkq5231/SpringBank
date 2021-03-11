@@ -18,12 +18,17 @@ import com.google.gson.JsonParser;
 @Component
 public class BankAPI {
 
-	// 카카오 로그인
+	String host = "https://testapi.openbanking.or.kr";
+	String client_id = "a61c3366-5f48-421e-a297-56620fedd3e6";
+	String client_secret = "0bdfc679-8a58-435d-a41f-c12a6bf411c0";
+	String redirect_uri = "http://localhost/bank2/callback";
+
+	// BANK 로그인
 	public String getAccessToken(String authorize_code) {
 		String access_Token = "";
 		String refresh_Token = "";
 		// URL 바꾸기
-		String reqURL = "https://testapi.openbanking.or.kr/oauth/2.0/token";
+		String reqURL = host + "/oauth/2.0/token";
 
 		try {
 			URL url = new URL(reqURL);
@@ -39,9 +44,9 @@ public class BankAPI {
 
 			// parameter 수정
 			sb.append("code=" + authorize_code);
-			sb.append("&client_id=a61c3366-5f48-421e-a297-56620fedd3e6");
-			sb.append("&client_secret=0bdfc679-8a58-435d-a41f-c12a6bf411c0");
-			sb.append("&redirect_uri=http://localhost/bank2/callback");
+			sb.append("&client_id=" + client_id);
+			sb.append("&client_secret=" + client_secret);
+			sb.append("&redirect_uri=" + redirect_uri);
 			sb.append("&grant_type=authorization_code");
 			bw.write(sb.toString());
 			bw.flush();
