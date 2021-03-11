@@ -7,12 +7,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.stereotype.Component;
 
+import com.company.bank.service.BankVO;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 @Component
@@ -22,6 +25,8 @@ public class BankAPI {
 	String client_id = "a61c3366-5f48-421e-a297-56620fedd3e6";
 	String client_secret = "0bdfc679-8a58-435d-a41f-c12a6bf411c0";
 	String redirect_uri = "http://localhost/bank2/callback";
+	// 이용기관코드
+	String user_ord_code = "M202111679";
 
 	// BANK 로그인
 	public String getAccessToken(String authorize_code) {
@@ -117,13 +122,77 @@ public class BankAPI {
 			}
 			System.out.println("response body : " + result);
 			// map에 담아 리턴
-			map.put("result", result);
+			Gson gson = new Gson();
+			map = gson.fromJson(result, HashMap.class);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		return map;
+	}
+
+	// 잔액조회 getBalance
+	public HashMap<String, Object> getBalance(BankVO vo) {
+
+		// 요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
+		HashMap<String, Object> map = new HashMap<>();
+		String reqURL = host + "/v2.0/account/balance/fin_num";
+		StringBuilder qstr = new StringBuilder();
+		qstr.append("bank_tran_id=").append(user_ord_code + "U" + getRand())//
+				.append("&fintech_use_num=").append(vo.getFintech_use_num())// vo에 넣을 값 설정
+				.append("&tran_dtime=").append(getDate());
+		try {
+			URL url = new URL(reqURL + "?" + qstr);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+
+			// 요청에 필요한 Header에 포함될 내용
+			conn.setRequestProperty("Authorization", "Bearer " + vo.getAccess_token());
+
+			// 출력되는 값이 200이면 정상작동
+			int responseCode = conn.getResponseCode();
+			System.out.println("responseCode : " + responseCode);
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+			String line = "";
+			String result = "";
+
+			while ((line = br.readLine()) != null) {
+				result += line;
+			}
+			System.out.println("response body : " + result);
+			// map에 담아 리턴
+			Gson gson = new Gson();
+			map = gson.fromJson(result, HashMap.class);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return map;
+	}
+
+	// Date변환
+	public String getDate() {
+		String str = "";
+		Date date = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
+		str = format.format(date);
+		return str;
+	}
+
+	// 9자리 난수
+	public String getRand() {
+		long time = System.currentTimeMillis();
+		String str = Long.toString(time);
+		return str.substring(str.length() - 9);// 9자리 이후로 자름?
+	}
+
+	// 32자리 난수 만들기
+	public String getRand32() {
+		return "";
 	}
 
 }// end of class
