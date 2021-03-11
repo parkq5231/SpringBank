@@ -28,7 +28,7 @@ public class BankController {
 		String client_id = "&client_id=a61c3366-5f48-421e-a297-56620fedd3e6";//
 		String redirect_uri = "&redirect_uri=http://localhost/bank2/callback";//
 		String scope = "&scope=login inquiry transfer";//
-		String state = "&state=12345678901234567890123456789012";//
+		String state = "&state=" + bankAPI.getRand32();//
 		String auth_type = "&auth_type=0";
 
 		StringBuilder qstr = new StringBuilder();
