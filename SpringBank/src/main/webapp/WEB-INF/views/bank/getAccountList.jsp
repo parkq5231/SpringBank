@@ -13,6 +13,7 @@
 	<table border="1">
 		<tr>
 			<th>핀테크번호</th>
+			<th>핀테크번호2</th>
 			<th>계좌명</th>
 			<th>계좌번호</th>
 			<th>사용자</th>

@@ -84,4 +84,13 @@ public class BankController {
 		System.out.println("map값:" + map);
 		return map;
 	}
+
+	// 기관인증
+	@RequestMapping("/getOrgAuthorize")
+	public String getOrgAuthorize() {
+		Map<String, Object> map = bankAPI.getOrgAccessToken();
+		System.out.println("access_token: " + map.get("access_token"));
+		return "home";
+	}
+
 }// end of class

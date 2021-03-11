@@ -10,6 +10,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,55 @@ public class BankAPI {
 	// 이용기관코드
 	String user_ord_code = "M202111679";
 
+	// 기관 로그인
+	public Map<String, Object> getOrgAccessToken() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String reqURL = host + "/oauth/2.0/token";
+		try {
+			URL url = new URL(reqURL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+			// POST 요청을 위해 기본값이 false인 setDoOutput을 true로
+			conn.setRequestMethod("POST");
+			conn.setDoOutput(true);
+
+			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+
+			// POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			StringBuilder sb = new StringBuilder();
+
+			// parameter 수정
+			sb.append("client_id=" + client_id)//
+					.append("&client_secret=" + client_secret)//
+					.append("&scope=oob")//
+					.append("&grant_type=client_credentials");
+			bw.write(sb.toString());
+			bw.flush();
+
+			// 결과 코드가 200이라면 성공
+			int responseCode = conn.getResponseCode();
+			System.out.println("responseCode : " + responseCode);
+
+			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = "";
+			String result = "";
+
+			while ((line = br.readLine()) != null) {
+				result += line;
+			}
+			System.out.println("response body : " + result);
+			// gson 이용 map에 저장하기(1줄로 가능)
+			Gson gson = new Gson();
+			map = gson.fromJson(result, HashMap.class);
+			br.close();
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
 	// BANK 로그인
 	public String getAccessToken(String authorize_code) {
 		String access_Token = "";
