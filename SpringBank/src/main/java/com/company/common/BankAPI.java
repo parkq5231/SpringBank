@@ -75,11 +75,10 @@ public class BankAPI {
 
 			System.out.println("access_token : " + access_Token);
 			System.out.println("refresh_token : " + refresh_Token);
-
+			// gson 이용 map에 저장하기(1줄로 가능)
 			br.close();
 			bw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -87,10 +86,10 @@ public class BankAPI {
 	}// end of getAccessToken
 
 	// 사용자 정보 get
-	public HashMap<String, Object> getUserInfo(String access_Token, String user_num) {
+	public HashMap<String, Object> getAccountList(String access_Token, String user_num) {
 
 		// 요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
-		HashMap<String, Object> userInfo = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		String reqURL = "https://testapi.openbanking.or.kr/v2.0/account/list";
 		StringBuilder qstr = new StringBuilder();
 		qstr.append("user_seq_no=" + user_num)//
@@ -117,14 +116,14 @@ public class BankAPI {
 				result += line;
 			}
 			System.out.println("response body : " + result);
-			userInfo.put("result", result);
+			// map에 담아 리턴
+			map.put("result", result);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return userInfo;
+		return map;
 	}
 
 }// end of class

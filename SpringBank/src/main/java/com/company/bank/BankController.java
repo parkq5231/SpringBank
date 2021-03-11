@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -51,13 +52,14 @@ public class BankController {
 		return "home";
 	}// end fo callback
 
-	@RequestMapping("/userInfo")
-	public String userInfo(HttpSession session) {
+	@RequestMapping("/getAccountList")
+	public String getAccountList(HttpSession session, Model model) {
 		String access_token = (String) session.getAttribute("access_token");
 		String user_num = "1100770536";
-		Map<String, Object> userInfo = bankAPI.getUserInfo(access_token, user_num);
-		System.out.println("userInfo: " + userInfo);
-		return "home";
+		Map<String, Object> map = bankAPI.getAccountList(access_token, user_num);
+		System.out.println("userAccountList: " + map);
+		model.addAttribute("list", map);
+		return "bank/getAccountList";
 	}
 	// userInfo받기
 
