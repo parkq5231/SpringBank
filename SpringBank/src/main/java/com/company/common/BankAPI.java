@@ -245,7 +245,7 @@ public class BankAPI {
 	public String getRand32() {
 		long time = System.currentTimeMillis();
 		String str = Long.toString(time);
-		return str + str + str.substring(0, 6);
+		return str + str + str.substring(7);
 	}
 
 }// end of class
