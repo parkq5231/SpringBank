@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.company.bank.service.BankVO;
 import com.company.common.BankAPI;
@@ -72,5 +73,15 @@ public class BankController {
 		System.out.println("잔액:" + map);
 		model.addAttribute("balance", map);
 		return "bank/getBalance";
+	}
+
+	// ajaxGetBalance
+	@ResponseBody
+	@RequestMapping("/ajaxGetBalance")
+	public Map<String, Object> ajaxGetBalance(BankVO vo) {
+		vo.setAccess_token(access_token);
+		Map<String, Object> map = bankAPI.getBalance(vo);
+		System.out.println("map값:" + map);
+		return map;
 	}
 }// end of class
