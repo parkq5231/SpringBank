@@ -29,6 +29,29 @@ public class BankAPI {
 	// 이용기관코드
 	String user_ord_code = "M202111679";
 
+	// 기관 로그인 간단하게
+	public Map<String, Object> getOrgAccessTokenRestTemplate() {
+		String reqURL = host + "/oauth/2.0/token";
+		Map<String, Object> map = null;
+		
+		//입력한 내용 불러오기
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+		StringBuilder sb = new StringBuilder();
+
+		// parameter 수정
+		sb.append("client_id=" + client_id)//
+				.append("&client_secret=" + client_secret)//
+				.append("&scope=oob")//
+				.append("&grant_type=client_credentials");
+		bw.write(sb.toString());
+		bw.flush();
+
+		
+		
+		
+		return map;
+	}
+
 	// 기관 로그인
 	public Map<String, Object> getOrgAccessToken() {
 		Map<String, Object> map = new HashMap<String, Object>();
