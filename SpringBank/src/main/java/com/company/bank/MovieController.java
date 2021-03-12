@@ -28,7 +28,7 @@ public class MovieController {
 		Map boxOfficeResult = (Map) map.get("boxOfficeResult");
 		// Map 안의 List추출
 		List<Map> dailyBoxOfficeList = (List<Map>) boxOfficeResult.get("dailyBoxOfficeList");
-		// 영화제목 추출
+		// 영화제목+영화코드 추출
 		for (Map movie : dailyBoxOfficeList) {
 			list.add((String) movie.get("movieNm") + ":" + (String) movie.get("movieCd"));
 		}

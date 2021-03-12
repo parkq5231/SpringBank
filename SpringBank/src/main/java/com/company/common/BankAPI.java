@@ -12,7 +12,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.company.bank.service.BankVO;
 import com.google.gson.Gson;
@@ -28,27 +33,28 @@ public class BankAPI {
 	String redirect_uri = "http://localhost/bank2/callback";
 	// 이용기관코드
 	String user_ord_code = "M202111679";
+	// 기관로그인 토큰
+	String org_access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJNMjAyMTExNjc5Iiwic2NvcGUiOlsib29iIl0sImlzcyI6Imh0dHBzOi8vd3d3Lm9wZW5iYW5raW5nLm9yLmtyIiwiZXhwIjoxNjIzMzA2NTcxLCJqdGkiOiJhNGZlNmVhNC02ZTIxLTQyOGMtYmE4OC0xMmJmOGVkNzhlMjUifQ.2XEjjmT1-5IFIXn_vC-yAnJ72LB2JyXkAffwefgtg4k";
 
 	// 기관 로그인 간단하게
 	public Map<String, Object> getOrgAccessTokenRestTemplate() {
 		String reqURL = host + "/oauth/2.0/token";
-		Map<String, Object> map = null;
-		
-		//입력한 내용 불러오기
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-		StringBuilder sb = new StringBuilder();
 
-		// parameter 수정
-		sb.append("client_id=" + client_id)//
-				.append("&client_secret=" + client_secret)//
-				.append("&scope=oob")//
-				.append("&grant_type=client_credentials");
-		bw.write(sb.toString());
-		bw.flush();
+		// 추가된 부분
+		MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
+		param.add("client_id", client_id);
+		param.add("client_secret", client_secret);
+		param.add("scope", "oob");
+		param.add("grant_type", "client_credentials");
 
-		
-		
-		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(param,
+				headers);
+		//
+		RestTemplate restTemplate = new RestTemplate();
+		Map map = restTemplate.postForObject(reqURL, request, Map.class);
 		return map;
 	}
 

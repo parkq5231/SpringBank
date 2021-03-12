@@ -93,4 +93,11 @@ public class BankController {
 		return "home";
 	}
 
+	// 기관인증2
+	@RequestMapping("/getOrgAccessTokenRestTemplate")
+	public String getOrgAuthorize2() {
+		Map<String, Object> map = bankAPI.getOrgAccessTokenRestTemplate();
+		System.out.println("access_token: " + map.get("access_token"));
+		return "home";
+	}
 }// end of class

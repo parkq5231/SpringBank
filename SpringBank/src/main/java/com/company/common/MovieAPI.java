@@ -21,7 +21,6 @@ public class MovieAPI {
 		RestTemplate restTemplate = new RestTemplate();
 		return restTemplate.getForObject(url, Map.class);
 	}
-
 	// 그날 날짜 메소드 생성
 
 }
