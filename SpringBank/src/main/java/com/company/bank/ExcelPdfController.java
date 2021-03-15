@@ -1,5 +1,8 @@
 package com.company.bank;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +18,11 @@ public class ExcelPdfController {
 	// excel
 	@RequestMapping("/getEmpExcel")
 	public String getEmpExcel(Model model) {
+		List<Map<String, Object>> list = empMapper.getEmpList();
+		System.out.println(list.get(0));
 		model.addAttribute("filename", "empList");
-		model.addAttribute("datas", empMapper.getEmpList());
+		model.addAttribute("headers", new String[] { "firstName", "lastName", "salary" });
+		model.addAttribute("datas", list);
 		return "commonExcelView";
 	}
 }
