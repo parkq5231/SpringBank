@@ -13,5 +13,9 @@
 	<br>
 	<a href="getBiz">크롤링</a>
 	<br>
+	<a href="pdf/empList">empList PDF</a>
+	<br>
+	<a href="pdf/empList2?dept=50">empList2 PDF2</a>
+	<br>
 </body>
 </html>
