@@ -76,7 +76,8 @@ public class TestController {
 		mv.addObject("firstName", firstName);
 		// viewPage
 		mv.setViewName("test");
-		return mv;
+
+		return new ModelAndView("test", "firstName", firstName);
 	}
 
 	// 응답결과 json
@@ -93,7 +94,7 @@ public class TestController {
 	@ResponseBody
 	public List<Map> getTest8() {
 		List list = new ArrayList<>();
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("name", "park");
 		map.put("sal", "1000");

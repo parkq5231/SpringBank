@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	제목: ${vo.title}<br>
-	작성자: ${vo.writer}<br>
+	제목: ${boardVO.title}<br>
+	작성자: ${boardVO.writer}<br>
 </body>
 </html>
