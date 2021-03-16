@@ -34,16 +34,19 @@
         		console.log(result)
         		for (o of result){//of = array, in = value
         			//[{},{}] -> [ [],[] ]
-        			arr.push([  o.날짜, parseInt(o.합계) ]);
+        			arr.push([ o.날짜, o.합계 ]);
         		}
         	}
         });
         //DB데이터로 추가
         data.addRows(arr);
         // Set chart options
-        var options = {'title':'일별판매합계',
+        var options = {'title':'일별 판매내역',
                        'width':400,
-                       'height':300};
+                       'height':300,
+                       colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+        				vAxis: {format:"$#,###", gridlines: { count: 10 } }
+                       };
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));

@@ -18,13 +18,13 @@
 	</select>
 	<!-- 월별합계 -->
 	<select id="monthlyTotal" resultType="map">
-		select to_char(sale_date,'yyyy-MM-dd') "날짜", sum(sale_price) "합계"
+		select to_char(sale_date,'yyyy-mm') "날짜", sum(sale_price) "합계"
 		from sale_tbl_10
 		group by to_char(sale_date,'yyyy-mm')
 	</select>
 	<!-- 년도별합계 -->
 	<select id="yearsTotal" resultType="map">
-		select to_char(sale_date,'yyyy-MM-dd') "날짜",sum(sale_price) "합계"
+		select to_char(sale_date,'yyyy') "날짜",sum(sale_price) "합계"
 		from sale_tbl_10
 		group by to_char(sale_date,'yyyy')
 	</select>
