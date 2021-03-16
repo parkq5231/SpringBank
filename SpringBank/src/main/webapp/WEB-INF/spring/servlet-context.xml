@@ -22,8 +22,7 @@
 	<!-- 정적 컨텐츠 : css, js ,img -->
 	<resources mapping="/resources/**" location="/resources/" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
-		in the /WEB-INF/views directory -->
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -35,6 +34,12 @@
 	<beans:bean
 		class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<beans:property name="order" value="1" />
+	</beans:bean>
+	<!-- MultipartResolver 설정 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="100000000" />
+		<beans:property name="maxInMemorySize" value="100000000" />
 	</beans:bean>
 
 	<!-- @Component, @Controller... scan -->
