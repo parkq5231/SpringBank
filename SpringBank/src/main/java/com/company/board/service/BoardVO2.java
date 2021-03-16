@@ -11,5 +11,6 @@ public class BoardVO2 {
 	private String writer;
 	private String content;
 	private String fileName;
-	private MultipartFile uploadFile;
+	//배열로 고치면 여러건 가능
+	private MultipartFile[] uploadFile;
 }

@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.company.board.service.BoardVO2;
 import com.company.board.service.impl.BoardMapper2;
+import com.company.common.FileRenamePolicy;
 
 @Controller
 public class BoardController2 {
@@ -37,15 +38,27 @@ public class BoardController2 {
 	public String insertBoard(BoardVO2 vo) throws IllegalStateException, IOException {
 		System.out.println(vo);
 		// 첨부파일처리
-		MultipartFile file = vo.getUploadFile();
-		if (file != null && !file.isEmpty() && file.getSize() > 0) {
-			// 업로드 된 파일명
-			String filename = file.getOriginalFilename();
-			// vo에 업로드 된 파일명 담기
-			vo.setFileName(filename);
-			// 업로드 폴더로 옮김
-			file.transferTo(new File("C:\\upload", filename));
-		}
+		MultipartFile[] files = vo.getUploadFile();
+		String filenames = "";
+		boolean start = true;
+		for (MultipartFile file : files) {
+			if (file != null && !file.isEmpty() && file.getSize() > 0) {
+				// 업로드 된 파일명
+				String filename = file.getOriginalFilename();
+				// 파일명 중복채크
+				File rename = FileRenamePolicy.rename(new File("C:\\upload", filename));
+				// vo에 업로드 된 rename된 파일명 담기
+				if (!start) {
+					filenames += ",";
+				} else {
+					start = false;
+				}
+				filenames += rename.getName();
+				// 임시폴더에서 실제 업로드 폴더로 파일 이동
+				file.transferTo(rename);
+			} // end of if
+		} // end of for
+		vo.setFileName(filenames);
 		// 등록서비스 호출
 		int r = dao.insertBoard(vo);
 		System.out.println(r + "건 등록.");
@@ -65,6 +78,7 @@ public class BoardController2 {
 		// 단건조회
 		vo = dao.getBoard(vo);
 		File file = new File("c:/upload", vo.getFileName());
+
 		if (file.exists()) {// file이 있을 때를 채크
 			// 다운받을 때의 파일header설정 파일명,contentType,encoding
 			response.setContentType("application/octet-stream;charset=UTF-8");
@@ -88,8 +102,7 @@ public class BoardController2 {
 			response.setContentType("text/html; charset=UTF-8");
 			response.getWriter().append("<script>")//
 					.append("alert('file not found(파일 없음)');")//
-					.append("history.go(-1);")
-					.append("</script>");
+					.append("history.go(-1);").append("</script>");
 		}
 	}
 }
