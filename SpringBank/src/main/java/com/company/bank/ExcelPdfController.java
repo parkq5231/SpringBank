@@ -85,21 +85,10 @@ public class ExcelPdfController {
 
 	@RequestMapping("/getChartData")
 	@ResponseBody
-	public List<Map<String, String>> getChartData() {
-		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("name", "인사");
-		map.put("cnt", "5");
-		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("name", "총무");
-		map.put("cnt", "10");
-		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("name", "기획");
-		map.put("cnt", "20");
-		list.add(map);
-		return list;
+	public List<Map<String, Object>> getChartData() {
+		// 쿼리 결과 호출
+		// 일별 합계
+		return empMapper.dailyTotal();
 	}
 
 }

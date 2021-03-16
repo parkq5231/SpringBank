@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isELIgnored="false"%>
+	pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
-  <head>
-    <!--Load the AJAX API-->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+<head>
+<!--Load the AJAX API-->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
 
       // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
@@ -21,8 +22,8 @@
 
         // Create the data table.
         var data = new google.visualization.DataTable();
-        data.addColumn('string', '부서');
-        data.addColumn('number', '인원수');
+        data.addColumn('string', '날짜');
+        data.addColumn('number', '월별합계');
         var arr = [];
         //ajax
         $.ajax({
@@ -30,17 +31,17 @@
         	async :false,//동기식
         	dataType : 'json',
         	success : function(result){
-        		for (i of result){//of = array, in = value
+        		console.log(result)
+        		for (o of result){//of = array, in = value
         			//[{},{}] -> [ [],[] ]
-        			arr.push([ i.name, parseInt(i.cnt) ]);
+        			arr.push([  o.날짜, parseInt(o.합계) ]);
         		}
         	}
         });
         //DB데이터로 추가
         data.addRows(arr);
-
         // Set chart options
-        var options = {'title':'부서별 인원수',
+        var options = {'title':'일별판매합계',
                        'width':400,
                        'height':300};
 
@@ -49,10 +50,10 @@
         chart.draw(data, options);
       }
     </script>
-  </head>
+</head>
 
-  <body>
-    <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
-  </body>
+<body>
+	<!--Div that will hold the pie chart-->
+	<div id="chart_div"></div>
+</body>
 </html>

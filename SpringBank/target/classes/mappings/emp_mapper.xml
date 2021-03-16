@@ -4,10 +4,28 @@
 <mapper namespace="com.company.bank.service.impl.EmpMapper">
 	<select id="getEmpList" resultType="map">
 		SELECT
-			FIRST_NAME "firstName",
-			LAST_NAME "lastName",
-			SALARY "salary",
-			EMAIL "email"
+		FIRST_NAME "firstName",
+		LAST_NAME "lastName",
+		SALARY "salary",
+		EMAIL "email"
 		FROM EMPLOYEES
+	</select>
+	<!-- 일별합계 -->
+	<select id="dailyTotal" resultType="map">
+		select to_char(sale_date,'yyyy-MM-dd') "날짜", sum(sale_price) "합계"
+		from sale_tbl_10 
+		group by sale_date
+	</select>
+	<!-- 월별합계 -->
+	<select id="monthlyTotal" resultType="map">
+		select to_char(sale_date,'yyyy-MM-dd') "날짜", sum(sale_price) "합계"
+		from sale_tbl_10
+		group by to_char(sale_date,'yyyy-mm')
+	</select>
+	<!-- 년도별합계 -->
+	<select id="yearsTotal" resultType="map">
+		select to_char(sale_date,'yyyy-MM-dd') "날짜",sum(sale_price) "합계"
+		from sale_tbl_10
+		group by to_char(sale_date,'yyyy')
 	</select>
 </mapper>
