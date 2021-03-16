@@ -12,7 +12,7 @@
 	</select>
 	<!-- 일별합계 -->
 	<select id="dailyTotal" resultType="map">
-		select to_char(sale_date,'yyyy-MM-dd') "날짜", sum(sale_price) "합계"
+		select to_char(sale_date,'yyyy-mm-dd') "날짜", sum(sale_price) "합계"
 		from sale_tbl_10 
 		group by sale_date
 	</select>
