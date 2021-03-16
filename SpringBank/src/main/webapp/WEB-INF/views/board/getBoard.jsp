@@ -15,6 +15,7 @@
 		작성자:${board.writer}<br>
 		첨부파일 단건:<a href="fileDown?seq=${board.seq}">${board.fileName}</a><br>
 		첨부파일 다건:
+		<a href="">일괄다운받기(ZIP)</a><br>
 		<c:forTokens items="${board.fileName}" delims="," var="file">
 			<a href="fileNameDown?fileName=${file}">${file}</a><br>
 		</c:forTokens>

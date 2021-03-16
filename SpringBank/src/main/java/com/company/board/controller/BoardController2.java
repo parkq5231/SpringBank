@@ -125,6 +125,7 @@ public class BoardController2 {
 				out = new BufferedOutputStream(response.getOutputStream());
 				FileCopyUtils.copy(in, out);
 				out.flush();
+				
 			} catch (IOException ex) {
 			} finally {
 				in.close();

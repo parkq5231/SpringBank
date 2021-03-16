@@ -1,8 +1,7 @@
 package com.company.bank;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.company.bank.service.impl.EmpMapper;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -82,7 +81,25 @@ public class ExcelPdfController {
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperFile, null, conn);
 		// 출력
 		JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+	}
 
+	@RequestMapping("/getChartData")
+	@ResponseBody
+	public List<Map<String, String>> getChartData() {
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("name", "인사");
+		map.put("cnt", "5");
+		list.add(map);
+		map = new HashMap<String, String>();
+		map.put("name", "총무");
+		map.put("cnt", "10");
+		list.add(map);
+		map = new HashMap<String, String>();
+		map.put("name", "기획");
+		map.put("cnt", "20");
+		list.add(map);
+		return list;
 	}
 
 }
