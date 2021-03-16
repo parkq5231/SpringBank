@@ -72,11 +72,44 @@ public class BoardController2 {
 		return "board/getBoard";
 	}
 
-	// 파일다운
+	// 파일1개 다운
 	@GetMapping("/fileDown")
 	public void fileDown(BoardVO2 vo, HttpServletResponse response) throws IOException {
 		// 단건조회
 		vo = dao.getBoard(vo);
+		File file = new File("c:/upload", vo.getFileName());
+
+		if (file.exists()) {// file이 있을 때를 채크
+			// 다운받을 때의 파일header설정 파일명,contentType,encoding
+			response.setContentType("application/octet-stream;charset=UTF-8");
+			response.setHeader("Content-Disposition",
+					"attachment; filename=\"" + URLEncoder.encode(vo.getFileName(), "utf-8") + "\"");
+			// 파일복사의 원리와 같음
+			BufferedInputStream in = null;
+			BufferedOutputStream out = null;
+			try {
+				in = new BufferedInputStream(new FileInputStream(file));
+				out = new BufferedOutputStream(response.getOutputStream());
+				FileCopyUtils.copy(in, out);
+				out.flush();
+			} catch (IOException ex) {
+			} finally {
+				in.close();
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+			}
+		} else { // 파일이 없을 때
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().append("<script>")//
+					.append("alert('file not found(파일 없음)');")//
+					.append("history.go(-1);").append("</script>");
+		}
+	}
+
+	// 파일 여러개 다운
+	@GetMapping("/fileNameDown")
+	public void fileNameDown(BoardVO2 vo, HttpServletResponse response) throws IOException {
+		// 파일이름 받아옴
 		File file = new File("c:/upload", vo.getFileName());
 
 		if (file.exists()) {// file이 있을 때를 채크
