@@ -148,29 +148,20 @@ public class BoardController2 {
 	// 파일 알집으로 다운받기
 	@RequestMapping("/fileCompress")
 	public void fileCompress(BoardVO2 vo, HttpServletResponse response) throws Exception {
-		// 1.파일명 받아오기
-		MultipartFile[] files = vo.getUploadFile();
+		// 1.파일이름 받아옴
+		String files = vo.getFileName();
+		System.out.println(files);
 		// 2.파일명에서 ,제거하기
-		// 첨부파일처리
-		String filenames = "";
 		boolean start = true;
-		for (MultipartFile file : files) {
-			if (file != null && !file.isEmpty() && file.getSize() > 0) {
-				// 업로드 된 파일명
-				String filename = file.getOriginalFilename();
-				// 파일명 중복채크
-				File rename = FileRenamePolicy.rename(new File("C:\\upload", filename));
-				// vo에 업로드 된 rename된 파일명 담기
-				if (!start) {
-					filenames += ",";
-				} else {
-					start = false;
-				}
-				filenames += rename.getName();
-			}
+		if(!start) {
+			
 		}
-		// 3.파일명과 DB에 있는 이름이 일치하는 경우 조회
-		// 4.일치한 이름들의 파일 압축
-		// 5.압축한 zip파일 다운로드
+		// 3.DB값과 일치하는지 채크
+		//File rename = FileRenamePolicy.rename(new File("C:\\upload", filename));
+		// 4.일치할 경우, 디렉토리 생성
+		// 5.생성한 디렉토리에 파일들 집어넣기
+		// 6.디렉토리 압축
+		// 7.압축한 zip파일 다운로드
+
 	}// end of fileCompress
 }
