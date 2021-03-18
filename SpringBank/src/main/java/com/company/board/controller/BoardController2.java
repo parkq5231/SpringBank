@@ -152,12 +152,10 @@ public class BoardController2 {
 		String files = vo.getFileName();
 		System.out.println(files);
 		// 2.파일명에서 ,제거하기
-		boolean start = true;
-		if(!start) {
-			
-		}
+		// ,제거 작업 3번 반복
+		// 
 		// 3.DB값과 일치하는지 채크
-		//File rename = FileRenamePolicy.rename(new File("C:\\upload", filename));
+		// File rename = FileRenamePolicy.rename(new File("C:\\upload", filename));
 		// 4.일치할 경우, 디렉토리 생성
 		// 5.생성한 디렉토리에 파일들 집어넣기
 		// 6.디렉토리 압축
