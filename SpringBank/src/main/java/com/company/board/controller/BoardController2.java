@@ -4,9 +4,13 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.company.board.service.BoardVO2;
@@ -125,7 +130,7 @@ public class BoardController2 {
 				out = new BufferedOutputStream(response.getOutputStream());
 				FileCopyUtils.copy(in, out);
 				out.flush();
-				
+
 			} catch (IOException ex) {
 			} finally {
 				in.close();
@@ -139,4 +144,33 @@ public class BoardController2 {
 					.append("history.go(-1);").append("</script>");
 		}
 	}
+
+	// 파일 알집으로 다운받기
+	@RequestMapping("/fileCompress")
+	public void fileCompress(BoardVO2 vo, HttpServletResponse response) throws Exception {
+		// 1.파일명 받아오기
+		MultipartFile[] files = vo.getUploadFile();
+		// 2.파일명에서 ,제거하기
+		// 첨부파일처리
+		String filenames = "";
+		boolean start = true;
+		for (MultipartFile file : files) {
+			if (file != null && !file.isEmpty() && file.getSize() > 0) {
+				// 업로드 된 파일명
+				String filename = file.getOriginalFilename();
+				// 파일명 중복채크
+				File rename = FileRenamePolicy.rename(new File("C:\\upload", filename));
+				// vo에 업로드 된 rename된 파일명 담기
+				if (!start) {
+					filenames += ",";
+				} else {
+					start = false;
+				}
+				filenames += rename.getName();
+			}
+		}
+		// 3.파일명과 DB에 있는 이름이 일치하는 경우 조회
+		// 4.일치한 이름들의 파일 압축
+		// 5.압축한 zip파일 다운로드
+	}// end of fileCompress
 }

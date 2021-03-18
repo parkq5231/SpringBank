@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class BoardVO2 {
-	private int seq;
+	private Integer seq;
 	private String title;
 	private String writer;
 	private String content;
