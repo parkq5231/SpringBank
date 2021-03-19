@@ -2,15 +2,16 @@ package com.company.board.controller;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,30 +146,44 @@ public class BoardController2 {
 		}
 	}
 
+	private final int MAX_SIZE = 1024;
+
 	// 파일 알집으로 다운받기
 	@RequestMapping("/fileCompress")
 	public void fileCompress(BoardVO2 vo, HttpServletResponse response) throws Exception {
-		// 1.파일명 받아오기
-		MultipartFile[] files = vo.getUploadFile();
-		// 2.파일명에서 ,제거하기
-		// 첨부파일처리
-		String filenames = "";
-		boolean start = true;
-		for (MultipartFile file : files) {
-			if (file != null && !file.isEmpty() && file.getSize() > 0) {
-				// 업로드 된 파일명
-				String filename = file.getOriginalFilename();
-				// 파일명 중복채크
-				File rename = FileRenamePolicy.rename(new File("C:\\upload", filename));
-				// vo에 업로드 된 rename된 파일명 담기
-				if (!start) {
-					filenames += ",";
-				} else {
-					start = false;
+
+		String[] files = { "test1.txt", "test2.txt", "test3.txt" };
+		byte[] buf = new byte[MAX_SIZE];
+
+		ZipOutputStream outputStream = null;
+		FileInputStream fileInputStream = null;
+		try {
+			outputStream = new ZipOutputStream(new FileOutputStream("result.zip"));
+
+			for (String file : files) {
+				fileInputStream = new FileInputStream(file);
+				outputStream.putNextEntry(new ZipEntry(file));
+
+				int length = 0;
+				while (((length = fileInputStream.read()) > 0)) {
+					outputStream.write(buf, 0, length);
 				}
-				filenames += rename.getName();
+				outputStream.closeEntry();
+				fileInputStream.close();
+			}
+			outputStream.close();
+		} catch (IOException e) {
+			// Exception Handling
+		} finally {
+			try {
+				outputStream.closeEntry();
+				outputStream.close();
+				fileInputStream.close();
+			} catch (IOException e) {
+				// Exception Handling
 			}
 		}
+
 		// 3.파일명과 DB에 있는 이름이 일치하는 경우 조회
 		// 4.일치한 이름들의 파일 압축
 		// 5.압축한 zip파일 다운로드
