@@ -2,13 +2,13 @@ package com.company.board.controller;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -21,6 +21,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.company.board.service.BoardVO2;
@@ -76,6 +77,13 @@ public class BoardController2 {
 	public String getBoard(BoardVO2 vo, Model model) {
 		model.addAttribute("board", dao.getBoard(vo));
 		return "board/getBoard";
+	}
+
+	// 전체조회
+	@GetMapping("/getSearchBoard")
+	public String getSearchBoard(BoardVO2 vo, Model model) {
+		model.addAttribute("list", dao.getSearchBoard(vo));
+		return "board/getSearchBoard";
 	}
 
 	// 파일1개 다운

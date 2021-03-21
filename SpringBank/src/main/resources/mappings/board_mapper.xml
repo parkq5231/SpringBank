@@ -28,6 +28,10 @@
 	<!-- 단건 조회 -->
 	<select id="getBoard" parameterType="boardVO2" resultType="boardVO2">
 	SELECT * FROM BOARD2
-	WHERE SEQ = #{seq} 
+	WHERE SEQ = #{seq}
+	</select>
+	<!-- 전체 조회 -->
+	<select id="getSearchBoard" parameterType="boardVO2" resultType="boardVO2">
+	SELECT * FROM BOARD2
 	</select>
 </mapper> 
