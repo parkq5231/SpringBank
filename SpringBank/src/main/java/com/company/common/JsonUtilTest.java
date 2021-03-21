@@ -37,8 +37,8 @@ public class JsonUtilTest {
 		vo.setContent("김밥");
 		vo.setFileName("김밥");
 		vo.setTitle("title");
-		//String result2 = json.toObjectJson(vo);
-		//System.out.println("obj형태: " + result2);
+		// String result2 = json.toObjectJson(vo);
+		// System.out.println("obj형태: " + result2);
 
 	}// end of main
 }// end of class

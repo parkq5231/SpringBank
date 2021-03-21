@@ -187,5 +187,16 @@ public class BoardController2 {
 		// 3.파일명과 DB에 있는 이름이 일치하는 경우 조회
 		// 4.일치한 이름들의 파일 압축
 		// 5.압축한 zip파일 다운로드
+		// 1.파일이름 받아옴
+		// 2.파일명에서 ,제거하기
+		// ,제거 작업 3번 반복
+		//
+		// 3.DB값과 일치하는지 채크
+		// File rename = FileRenamePolicy.rename(new File("C:\\upload", filename));
+		// 4.일치할 경우, 디렉토리 생성
+		// 5.생성한 디렉토리에 파일들 집어넣기
+		// 6.디렉토리 압축
+		// 7.압축한 zip파일 다운로드
+
 	}// end of fileCompress
 }

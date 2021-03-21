@@ -9,6 +9,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import net.sf.jasperreports.engine.data.JsonData;
+
 public class JsonUtil {
 
 	// Map -> json
@@ -40,25 +45,18 @@ public class JsonUtil {
 		StringBuilder result = new StringBuilder();
 		result.append("{");//
 		// to do
-		// {},{}
-		// 방법 1. List->map->json
-		boolean start = true;
-		for (int i = 0; i < list.size(); i++) {
-			Map map = list.get(i);
-			//System.out.println(map);
-			Iterator<String> keys = map.keySet().iterator();
-			String key = keys.next();
-			String value = (String) map.get(key);
-			if (!start) {
-				result.append(",");
-			} else {
-				start = false;
-			}
-			result.append("\"").append(key).append("\":")//
-					.append("\"").append(value).append("\"");//
+		JsonArray json = new JsonArray();
+		for (Map<String, Object> map : list) {
+			json.add(toJson(map));
 		}
-		result.append("}");//
-		return result.toString();
+		// 두번째부터 구분기호 , 추가
+		boolean start = true;
+		if (!start) {
+			result.append(",");
+		} else {
+			start = false;
+		}
+		return json.toString();
 	}
 
 	// object -> json
@@ -96,8 +94,16 @@ public class JsonUtil {
 
 	// list<object> -> json
 	public String toObjectJson(List<Object> vo) {
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		// to do
-		return result;
+		// 두번째부터 구분기호 , 추가
+		boolean start = true;
+		if (!start) {
+			result.append(",");
+		} else {
+			start = false;
+		}
+		result.append("}");
+		return result.toString();
 	}
 }// end of class
