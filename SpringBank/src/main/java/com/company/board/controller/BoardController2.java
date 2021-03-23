@@ -7,8 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -21,12 +19,12 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.company.board.service.BoardVO2;
 import com.company.board.service.impl.BoardMapper2;
 import com.company.common.FileRenamePolicy;
+import com.company.common.Paging;
 
 @Controller
 public class BoardController2 {
@@ -81,7 +79,9 @@ public class BoardController2 {
 
 	// 전체조회
 	@GetMapping("/getSearchBoard")
-	public String getSearchBoard(BoardVO2 vo, Model model) {
+	public String getSearchBoard(BoardVO2 vo, Model model, Paging paging) {
+		// jsp에서 넘겨오는 값
+		paging.setStartPage(1);
 		model.addAttribute("list", dao.getSearchBoard(vo));
 		return "board/getSearchBoard";
 	}
