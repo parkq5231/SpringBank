@@ -10,6 +10,8 @@ public class Paging {
 	int endPage;
 	int first;
 	int last;
+	int start = 1;
+	int end = 10;
 
 	public int getFirst() {
 		first = (getPage() - 1) * getPageUnit() + 1;

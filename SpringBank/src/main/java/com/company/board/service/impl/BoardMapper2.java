@@ -14,4 +14,6 @@ public interface BoardMapper2 {
 	// 전체조회
 	public List<BoardVO2> getSearchBoard(BoardVO2 vo);
 
+	// 페이지 전체 수
+	public int getCount();
 }

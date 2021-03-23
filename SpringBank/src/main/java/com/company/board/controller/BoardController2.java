@@ -80,8 +80,19 @@ public class BoardController2 {
 	// 전체조회
 	@GetMapping("/getSearchBoard")
 	public String getSearchBoard(BoardVO2 vo, Model model, Paging paging) {
+		paging.setPageUnit(5);// 페이지 레코드 뷰
+		paging.setPageSize(3);// 페이지 번호
+		// paging
+		if (vo.getPage() == null)
+			vo.setPage(1);
+		//
+		vo.setStart(paging.getFirst());
+		vo.setEnd(paging.getLast());
+		//
+		paging.setTotalRecord(dao.getCount());
+		model.addAttribute("paging", paging);
+
 		// jsp에서 넘겨오는 값
-		paging.setStartPage(1);
 		model.addAttribute("list", dao.getSearchBoard(vo));
 		return "board/getSearchBoard";
 	}

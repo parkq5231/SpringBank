@@ -16,4 +16,5 @@ public interface EmpMapper {
 
 	// 년도별합계
 	public List<Map<String, Object>> yearsTotal();
+
 }

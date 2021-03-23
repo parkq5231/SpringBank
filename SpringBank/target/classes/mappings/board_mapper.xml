@@ -5,7 +5,8 @@
 	<!-- 파일등록 -->
 	<insert id="insertBoard" parameterType="boardVO2">
 		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(SEQ),0)+1 FROM BOARD2
+			SELECT
+			NVL(MAX(SEQ),0)+1 FROM BOARD2
 		</selectKey>
 		INSERT INTO BOARD2
 		(SEQ
@@ -26,12 +27,19 @@
 		)
 	</insert>
 	<!-- 단건 조회 -->
-	<select id="getBoard" parameterType="boardVO2" resultType="boardVO2">
-	SELECT * FROM BOARD2
-	WHERE SEQ = #{seq}
+	<select id="getBoard" parameterType="boardVO2"
+		resultType="boardVO2">
+		SELECT * FROM BOARD2
+		WHERE SEQ = #{seq}
 	</select>
 	<!-- 전체 조회 -->
-	<select id="getSearchBoard" parameterType="boardVO2" resultType="boardVO2">
-	SELECT * FROM BOARD2
+	<select id="getSearchBoard" parameterType="boardVO2"
+		resultType="boardVO2">
+		SELECT * FROM BOARD2
+	</select>
+	<!-- 레코드건수 -->
+	<select id="getCount" resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD2
 	</select>
 </mapper> 
